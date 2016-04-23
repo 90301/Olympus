@@ -46,6 +46,13 @@ public class Person implements simulateable {
 		// TODO Auto-generated method stub
 		return id;
 	}
+
+
+	@Override
+	public void generate() {
+		generatePerson();
+		
+	}
 	
 	
 	

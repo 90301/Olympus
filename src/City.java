@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class City implements simulateable {
 
 	
+	private static final int INITAL_POP = 100;
 	private String cityName;
 	private Map<String,Person> people = new ConcurrentHashMap<String,Person>();
 	private String id;
@@ -21,6 +22,7 @@ public class City implements simulateable {
 			p.generatePerson();
 			people.put(p.getId(), p);
 		}
+		//generate land (city level?)
 	}
 	
 	/**
@@ -35,6 +37,12 @@ public class City implements simulateable {
 	public String getId() {
 		// TODO Auto-generated method stub
 		return id;
+	}
+
+	@Override
+	public void generate() {
+		generateCity(INITAL_POP);
+		
 	}
 
 }
