@@ -1,3 +1,7 @@
+package buildings;
+import topLevel.NodeMain;
+import topLevel.simulateable;
+
 /**
  * This is a class that holds buildings, which are placed on land.
  * The land itself can have an owner.
