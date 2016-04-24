@@ -37,58 +37,27 @@ public class Food implements good {
 		baseFoods.putIfAbsent(f.foodName, f);
 	}
 	
-	public static void setupInitalFoods() {
-		String[] names = new String[11];
-		//base ingredients
-		names[0] = "Apples";
-		names[1] = "Wheat";
-		names[2] = "Rice";
-		names[3] = "Nuts";
-		names[4] = "Berries";
-		names[5] = "Vegtables";
-		//T1 food
-		names[6] = "Flour";
-		//process wheat or rice
-		names[7] = "Fruit Mix";
-		names[8] = "Salad";
-		//T2 food
-		names[9] = "Cookies";
-		names[10] = "Granola Bars";
-		//basic food generation
-		for (int i=0;i<11;i++) {
-			Food f = new Food();
-			f.setFoodName(names[i]);
-			f.setNutritionValue(i);
-			f.setTasteValue(15-i);
-			f.setGoodStats(2, 1);
-			f.id = BASE_FOOD_ID;
-			createBaseFood(f);
-			System.out.println(f);
-		}
-		
-	}
+	
 	
 	
 	
 	public Food() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override
 	public int getMass() {
-		// TODO Auto-generated method stub
 		return mass;
 	}
 
 	@Override
 	public int getVolume() {
-		// TODO Auto-generated method stub
 		return volume;
 	}
 
 	@Override
 	public int assessValue() {
-		// TODO Auto-generated method stub
+		//TODO: add assess value function
 		return 0;
 	}
 
@@ -105,13 +74,12 @@ public class Food implements good {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 
 	@Override
 	public void generate() {
-		this.id = NodeMain.genID();
+		this.setId(NodeMain.genID());
 		
 	}
 
@@ -155,6 +123,10 @@ public class Food implements good {
 	
 	public String toString() {
 		return "Food: " + this.foodName +" Nurtition: " + nutritionValue + " Taste: " + tasteValue + goodStatToString();
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

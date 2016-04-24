@@ -13,6 +13,7 @@ import topLevel.simulateable;
  *
  */
 public class Crop implements simulateable {
+	public static final String BASE_CROP_ID = "base crop";
 	/**
 	 * Holds all invented crops.
 	 */
@@ -20,10 +21,16 @@ public class Crop implements simulateable {
 	String id;
 	private String cropType;//refers to base crop id.
 	
-	int growTimeLeft;//the amount of time left for a crop to grow.
-	int cropDeathTime;//the time (<0) where the crop dies, yielding nothing.
+	private int growTimeLeft;//the amount of time left for a crop to grow.
+	private int cropDeathTime;//the time (<0) where the crop dies, yielding nothing.
+	private Boolean destoryOnHarvest;//determines if the crop is destoryed on harvest or not
+	private int cropRegrowTime;//time to regrow a crop after harvesting, not applicable to destory on harvest plants.
 	
-	ArrayList<good> harvestableGoods;//what will be returned when the good finishes growing.
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	ArrayList<good> harvestableGoods = new ArrayList<good>();//what will be returned when the good finishes growing.
 	
 	/*
 	 * Set at crop creation.
@@ -68,14 +75,83 @@ public class Crop implements simulateable {
 
 	public void setCropType(String cropType) {
 		this.cropType = cropType;
+		
+		if (this.id != BASE_CROP_ID) {
+		
 		Crop c = baseCrops.get(cropType);
 		//set stats based on crop type.
 		//TODO: add randomization
 		this.cropDeathTime = c.cropDeathTime;
 		this.growTimeLeft = c.growTimeLeft;
 		this.harvestableGoods = c.harvestableGoods;
+		this.destoryOnHarvest = c.destoryOnHarvest;
 		this.generate();
+		}
 		
+	}
+
+	public void addHarvestableGood(good g) {
+		harvestableGoods.add(g);
+	}
+	public int getGrowTimeLeft() {
+		return growTimeLeft;
+	}
+
+	public void setGrowTimeLeft(int growTimeLeft) {
+		this.growTimeLeft = growTimeLeft;
+	}
+
+	public int getCropDeathTime() {
+		return cropDeathTime;
+	}
+
+	public void setCropDeathTime(int cropDeathTime) {
+		this.cropDeathTime = cropDeathTime;
+	}
+
+	public ArrayList<good> getHarvestableGoods() {
+		return harvestableGoods;
+	}
+
+	public void setHarvestableGoods(ArrayList<good> harvestableGoods) {
+		this.harvestableGoods = harvestableGoods;
+	}
+
+	public Boolean getDestoryOnHarvest() {
+		return destoryOnHarvest;
+	}
+
+	public void setDestoryOnHarvest(Boolean destoryOnHarvest) {
+		this.destoryOnHarvest = destoryOnHarvest;
+	}
+
+	public int getCropRegrowTime() {
+		return cropRegrowTime;
+	}
+
+	public void setCropRegrowTime(int cropRegrowTime) {
+		this.cropRegrowTime = cropRegrowTime;
+	}
+
+	public static void addBaseCrop(Crop c1) {
+		baseCrops.put(c1.cropType, c1);
+		
+	}
+	
+	public String toString() {
+		String rtrn = "Crop: " + this.cropType;
+		rtrn += " id: " + this.id;
+		rtrn += " Stats: " + " Grow Time Left: " + growTimeLeft + " Crop Death Time: " + getCropDeathTime();
+		//regrow stats
+		rtrn += " Destroy on Harvest: " + destoryOnHarvest;
+		if (!destoryOnHarvest) {
+			rtrn += " Regrow Time: " + cropRegrowTime;
+		}
+		rtrn += " Produces: ";
+		for (good g : harvestableGoods) {
+			rtrn += g.toString();
+		}
+		return rtrn;
 	}
 	
 

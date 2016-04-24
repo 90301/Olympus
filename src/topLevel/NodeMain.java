@@ -19,7 +19,7 @@ public class NodeMain {
 	public static final String SIMULATION_ENDING = "Ending";
 	private static final int TOP_LEVEL_STRUCTURES = 100;
 
-	// Top level datastructures
+	// Top level data structures
 
 	public static ConcurrentHashMap<String, City> cities = new ConcurrentHashMap<String, City>();
 
@@ -60,7 +60,8 @@ public class NodeMain {
 			cities.put(c.getId(), c);
 		}
 		//setup base foods
-		Food.setupInitalFoods();
+		InitalSetup.setupInitalFoods();
+		InitalSetup.setupInitalCrops();
 	}
 
 	private static long nextId = 0;
