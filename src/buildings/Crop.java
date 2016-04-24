@@ -76,8 +76,6 @@ public class Crop implements simulateable {
 		this.harvestableGoods = c.harvestableGoods;
 		this.generate();
 		
-		
-		
 	}
 	
 

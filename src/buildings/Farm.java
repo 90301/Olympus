@@ -1,6 +1,7 @@
 package buildings;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import topLevel.Person;
 
@@ -21,15 +22,31 @@ public class Farm implements SubBuilding {
 	//data structures
 	private int plots = 20;//this depends on the size of the farm, indicates how many crops can be grown concurrently.
 	private ArrayList<Crop> crops = new ArrayList<Crop>();
-	
-	
-	
+	private Person owner;
+	/**
+	 * This holds all the workers for this farm. the key field is the id
+	 * of the worker, the Person field holds the worker. (this data structure may change
+	 * to a set of ids when global lookups are implemented.)
+	 */
+	private HashMap<String, Person> workers = new HashMap<String, Person>();
+	/**
+	 * This data structure holds all the special title workers for a particular building.
+	 * It is possible for a special worker to not be a worker, and rather be an owner.
+	 * A single worker can have multiple special roles. the first id is the role, the 2nd id is the
+	 * Persons id.
+	 */
+	private HashMap<String, String> specialWorkers = new HashMap<String,String>();
+	/**
+	 * The pay owed to specific workers, key is worker id, value is pay owed.
+	 * if nothing is owed, the value may be null.
+	 */
+	private HashMap<String, Integer> payOwed = new HashMap<String,Integer>();
 	/**
 	 * Grow crops
 	 */
 	@Override
 	public void simulateStep() {
-		
+		crops.stream().forEach(s -> s.simulateStep());
 		
 	}
 
@@ -79,6 +96,22 @@ public class Farm implements SubBuilding {
 	public int collectPay(Person worker) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public int getPlots() {
+		return plots;
+	}
+
+	public void setPlots(int plots) {
+		this.plots = plots;
+	}
+
+	public Person getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Person owner) {
+		this.owner = owner;
 	}
 
 }
