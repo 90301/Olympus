@@ -12,6 +12,12 @@ public interface good extends simulateable {
 	
 	public int getVolume();
 	
+	public void setGoodStats(int volume, int mass);
+	
+	public default String goodStatToString() {
+		return " Mass: " +  getMass() + " Volume: " + getVolume();
+	}
+	
 	public int assessValue();
 	
 

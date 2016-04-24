@@ -2,6 +2,8 @@ package topLevel;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+import goods.Food;
+
 /**
  * This class is run on a node in the simulation It is intended to have methods
  * to start the simulation, and hold top level datastructures for that node.
@@ -57,6 +59,8 @@ public class NodeMain {
 			c.generateCity(100);
 			cities.put(c.getId(), c);
 		}
+		//setup base foods
+		Food.setupInitalFoods();
 	}
 
 	private static long nextId = 0;
