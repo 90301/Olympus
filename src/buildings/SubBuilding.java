@@ -20,6 +20,27 @@ public interface SubBuilding extends simulateable {
 	 * @return the assessed value of the sub building.
 	 */
 	public int assess();
+	/**
+	 * This function is used for hiring people
+	 * @param hirePerson the person that will work the building.
+	 * @return if the building can be worked by more people
+	 */
+	public Boolean hire(Person hirePerson);
+	/**
+	 * called by the person who is supposed to work
+	 * at a particular sub building.
+	 * @param worker the worker (aka this)
+	 * @return if the worker was successful (aka still employed)
+	 */
+	public Boolean work(Person worker);
+	/**
+	 * Collect all pay for the worker for all work done.
+	 * @param worker the worker to collect pay (aka this)
+	 * @return the money collected.
+	 */
+	public int collectPay(Person worker);
+	
+	
 	public void demolish();
 
 }

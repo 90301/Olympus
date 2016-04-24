@@ -63,6 +63,7 @@ public class Food implements good {
 			f.setGoodStats(2, 1);
 			f.id = BASE_FOOD_ID;
 			createBaseFood(f);
+			System.out.println(f);
 		}
 		
 	}
@@ -153,7 +154,7 @@ public class Food implements good {
 	}
 	
 	public String toString() {
-		return "Food: " + this.foodName +" Nurtition: " + nutritionValue;
+		return "Food: " + this.foodName +" Nurtition: " + nutritionValue + " Taste: " + tasteValue + goodStatToString();
 	}
 
 }

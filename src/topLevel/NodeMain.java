@@ -84,5 +84,55 @@ public class NodeMain {
 	public static void pauseSimulation() {
 		simulationState = SIMULATION_PAUSED;
 	}
+	
+	/*
+	 * NOTES:
+	 * 
+	 * Hiring mechanics
+	 * each person can work at most 3 buildings at a time.
+	 * the building has a hire function.
+	 * before hiring, the building will broadcast a call for applications
+	 * each application will test the person being hired in a randomized stats test
+	 * where a multiplier between .5 and 2 is multiplied by the applicants stat in question.
+	 * an application can test 1 to 3 stats, some stats on the application are fixed for that job
+	 * others are randomized.
+	 * 
+	 * STATS:
+	 * There are likely to be a number of stats/personality traits for people. here are the major categories and
+	 * sub stats.
+	 * 
+	 * Social Stats:
+	 * 	Communication - improves understanding, and therefore efficiency in tasks requiring coordination.
+	 * 	Management - improves efficiency in management related tasks, which improves the efficiency of all other workers.
+	 * 
+	 * Intellectual Stats:
+	 * 	Math - improves efficiency in tasks requiring math.
+	 * 	Engineering - improves ability to come up with solutions or improve designs for improvements to tiles.
+	 * 
+	 * Blue Collar Stats: (specialized labor)
+	 * 	Machine work - efficiency in using machines to create or refine products.
+	 * 	Strength - ability to work using ones own body
+	 * 	Dexterity - ability to perform intricate work
+	 * 
+	 * ----------
+	 * in addition to stats (which change slowly) there are skills that can have big effect on certain jobs
+	 * Skills:
+	 * Supply Chain Efficiency - negotiates margins for suppliers/distributors for the business. 
+	 * (competition between supply chain position for both business)
+	 * 
+	 * Salary Negotiation - improves Salary directly (competition between hiring manager and worker)
+	 * 
+	 * 
+	 * ----------
+	 * Motivation:
+	 * Motivation serves as an overall multiplier for efficiency in working, as well
+	 * as a general mood indicator.
+	 * 
+	 * motivation is a complex variable, that I have not decided how to implement yet
+	 * so for right now, motivation will be at 1.0 always. motivation should be able to
+	 * go from 0 to 2.0
+	 * 
+	 * 
+	 */
 
 }

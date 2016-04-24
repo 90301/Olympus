@@ -1,5 +1,9 @@
 package buildings;
 
+import java.util.ArrayList;
+
+import topLevel.Person;
+
 /**
  * The farm, this is a "building" that produces food
  * given labor and time.
@@ -13,12 +17,19 @@ package buildings;
 public class Farm implements SubBuilding {
 
 	public Farm() {
-		// TODO Auto-generated constructor stub
 	}
-
+	//data structures
+	private int plots = 20;//this depends on the size of the farm, indicates how many crops can be grown concurrently.
+	private ArrayList<Crop> crops = new ArrayList<Crop>();
+	
+	
+	
+	/**
+	 * Grow crops
+	 */
 	@Override
 	public void simulateStep() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -50,6 +61,24 @@ public class Farm implements SubBuilding {
 	public void generate() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Boolean hire(Person hirePerson) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public Boolean work(Person worker) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int collectPay(Person worker) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
