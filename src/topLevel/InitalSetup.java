@@ -32,7 +32,7 @@ public class InitalSetup {
 		for (int i=0;i<11;i++) {
 			Food f = new Food();
 			f.setFoodName(names[i]);
-			f.setNutritionValue(i);
+			f.setNutritionValue(5+i);
 			f.setTasteValue(15-i);
 			f.setGoodStats(2, 1);
 			f.setId(Food.BASE_FOOD_ID);
@@ -56,5 +56,13 @@ public class InitalSetup {
 		System.out.println(f1);
 		Crop.addBaseCrop(c1);
 		System.out.println(c1);
+	}
+	
+	public static void setupCities() {
+		for (int i = 0; i < NodeMain.TOP_LEVEL_STRUCTURES; i++) {
+			City c = new City();
+			c.generateCity(100);
+			NodeMain.cities.put(c.getId(), c);
+		}
 	}
 }

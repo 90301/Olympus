@@ -8,6 +8,9 @@ public class City implements simulateable {
 	
 	private static final int INITAL_POP = 100;
 	private String cityName;
+	/**
+	 * The people currently in the city
+	 */
 	private Map<String,Person> people = new ConcurrentHashMap<String,Person>();
 	private String id;
 	public City() {
@@ -22,6 +25,7 @@ public class City implements simulateable {
 			Person p = new Person();
 			p.generatePerson();
 			people.put(p.getId(), p);
+			NodeMain.people.put(p.getId(), p);
 		}
 		//generate land (city level?)
 	}

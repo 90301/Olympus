@@ -15,8 +15,8 @@ import topLevel.simulateable;
 public class Building implements simulateable {
 	
 	String id;
-	String buildingName;
-	int buildingType = 0;
+	private String buildingName;
+	private int buildingType = 0;
 	
 	//building constants
 	public static final int VACANT_LOT = 0;
@@ -24,7 +24,8 @@ public class Building implements simulateable {
 	public static final int HOME = 2;
 	public static final int STORE = 3;
 	public static final int SKYSCRAPER = 4;
-	
+	public static final int FACTORY = 5;
+	public static final int LAB = 6;
 	//building specific variables?
 	private SubBuilding subBuilding;
 	
@@ -42,8 +43,8 @@ public class Building implements simulateable {
 	@Override
 	public void generate() {
 		this.id = NodeMain.genID();
-		this.buildingName = "building: " + this.id;
-		this.buildingType = VACANT_LOT;
+		this.setBuildingName("building: " + this.id);
+		this.setBuildingType(VACANT_LOT);
 
 	}
 
@@ -51,6 +52,30 @@ public class Building implements simulateable {
 	public void simulateStep() {
 		
 
+	}
+
+	public SubBuilding getSubBuilding() {
+		return subBuilding;
+	}
+
+	public void setSubBuilding(SubBuilding subBuilding) {
+		this.subBuilding = subBuilding;
+	}
+
+	public int getBuildingType() {
+		return buildingType;
+	}
+
+	public void setBuildingType(int buildingType) {
+		this.buildingType = buildingType;
+	}
+
+	public String getBuildingName() {
+		return buildingName;
+	}
+
+	public void setBuildingName(String buildingName) {
+		this.buildingName = buildingName;
 	}
 
 }

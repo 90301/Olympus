@@ -17,12 +17,14 @@ public class NodeMain {
 	public static final String SIMULATION_RUNNING = "Running";
 	public static final String SIMULATION_PAUSED = "Paused";
 	public static final String SIMULATION_ENDING = "Ending";
-	private static final int TOP_LEVEL_STRUCTURES = 100;
+	public static final int TOP_LEVEL_STRUCTURES = 100;
 
 	// Top level data structures
 
 	public static ConcurrentHashMap<String, City> cities = new ConcurrentHashMap<String, City>();
-
+	public static ConcurrentHashMap<String, Person> people = new ConcurrentHashMap<String, Person>();
+	
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		startSimulation();
@@ -54,11 +56,7 @@ public class NodeMain {
 
 	// Generation code
 	public static void generate() {
-		for (int i = 0; i < TOP_LEVEL_STRUCTURES; i++) {
-			City c = new City();
-			c.generateCity(100);
-			cities.put(c.getId(), c);
-		}
+		InitalSetup.setupCities();
 		//setup base foods
 		InitalSetup.setupInitalFoods();
 		InitalSetup.setupInitalCrops();

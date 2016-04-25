@@ -1,4 +1,7 @@
 package topLevel;
+import java.util.ArrayList;
+
+import buildings.*;
 /**
  * The class that holds all the data re
  * @author inhaler
@@ -13,6 +16,10 @@ public class Person implements simulateable {
 	private String id;
 	private int money;
 	private int age;
+	private City city;//The city currently in.
+	private ArrayList<Land> landOwned = new ArrayList<Land>();
+	private ArrayList<Building> buildingsOwned = new ArrayList<Building>();
+	
 	/*
 	 * TODO: add inventory system
 	 */
