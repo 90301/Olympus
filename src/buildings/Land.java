@@ -52,6 +52,7 @@ public class Land implements simulateable {
 		this.setOwnerId(NO_OWNER);
 		this.building = new Building();
 		this.building.generate();
+		this.building.setLand(this);
 		
 	}
 	@Override

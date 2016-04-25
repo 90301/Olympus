@@ -67,6 +67,7 @@ public class City implements simulateable {
 	 */
 	public void simulateStep() {
 		people.values().stream().forEach(s -> s.simulateStep());
+		land.values().stream().forEach(l -> l.simulateStep());
 	}
 	
 	

@@ -34,7 +34,7 @@ public class Building implements simulateable {
 	public static final int LAB = 6;
 	//building specific variables?
 	private SubBuilding subBuilding;
-	
+	private Land land;//the land this building is built on
 	
 	public Building() {
 		// TODO Auto-generated constructor stub
@@ -99,5 +99,15 @@ public void setBuildingType(int buildingType) {
 	public void setBuildingName(String buildingName) {
 		this.buildingName = buildingName;
 	}
+
+	public Land getLand() {
+		return land;
+	}
+
+	public void setLand(Land land) {
+		this.land = land;
+	}
+
+	
 
 }

@@ -35,6 +35,14 @@ public class Person implements simulateable {
 	public void simulateStep() {
 		this.age ++;
 		//simulate the person here
+		//If the person has any land with buildings that have nothing on them
+		for (Land l : landOwned) {
+			Building building = l.getBuilding();
+			if (building.getBuildingType()==Building.VACANT_LOT) {
+				building.setBuildingType(Building.FARMLAND);
+				System.out.println(building);
+			}
+		}
 		
 		if (age > MAX_AGE) {
 			//die
