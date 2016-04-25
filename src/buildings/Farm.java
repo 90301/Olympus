@@ -49,6 +49,15 @@ public class Farm implements SubBuilding {
 		crops.stream().forEach(s -> s.simulateStep());
 		
 	}
+	
+	public void plantCrop(Crop baseCrop) {
+		if (crops.size()<plots) {
+		Crop c = new Crop();
+		c.setCropType(baseCrop.getCropType());
+		c.generate();
+		crops.add(c);
+		}
+	}
 
 	@Override
 	public void build() {

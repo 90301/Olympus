@@ -40,7 +40,7 @@ public class Person implements simulateable {
 			Building building = l.getBuilding();
 			if (building.getBuildingType()==Building.VACANT_LOT) {
 				building.setBuildingType(Building.FARMLAND);
-				System.out.println(building);
+				//System.out.println(building);
 			}
 		}
 		
