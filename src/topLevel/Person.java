@@ -16,6 +16,8 @@ public class Person implements simulateable {
 	private String id;
 	private int money;
 	private int age;
+
+
 	private City city;//The city currently in.
 	private ArrayList<Land> landOwned = new ArrayList<Land>();
 	private ArrayList<Building> buildingsOwned = new ArrayList<Building>();
@@ -61,6 +63,57 @@ public class Person implements simulateable {
 		generatePerson();
 		
 	}
+	
+	
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public int getMoney() {
+		return money;
+	}
+
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
+
+
+	public City getCity() {
+		return city;
+	}
+
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+
+	public ArrayList<Land> getLandOwned() {
+		return landOwned;
+	}
+
+
+	public void setLandOwned(ArrayList<Land> landOwned) {
+		this.landOwned = landOwned;
+	}
+
+
+	public ArrayList<Building> getBuildingsOwned() {
+		return buildingsOwned;
+	}
+
+
+	public void setBuildingsOwned(ArrayList<Building> buildingsOwned) {
+		this.buildingsOwned = buildingsOwned;
+	}
+
 	
 	
 	

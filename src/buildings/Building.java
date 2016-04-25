@@ -53,6 +53,24 @@ public class Building implements simulateable {
 		
 
 	}
+	/**
+	 * This method sets the building type and also
+	 * creates the relevant sub-building.
+	 * @param buildingType
+	 */
+public void setBuildingType(int buildingType) {
+		this.buildingType = buildingType;
+		//create sub building.
+		if (buildingType==FARMLAND) {
+			Farm building = new Farm();
+			building.generate();
+			subBuilding = building;
+			
+		} else if (buildingType==STORE) {
+			
+		}
+		
+	}
 
 	public SubBuilding getSubBuilding() {
 		return subBuilding;
@@ -66,9 +84,7 @@ public class Building implements simulateable {
 		return buildingType;
 	}
 
-	public void setBuildingType(int buildingType) {
-		this.buildingType = buildingType;
-	}
+	
 
 	public String getBuildingName() {
 		return buildingName;

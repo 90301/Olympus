@@ -31,6 +31,13 @@ public class Land implements simulateable {
 		assessedValue = 100;
 	}
 	
+	
+	
+	@Override
+	public String toString() {
+		return "Land [id=" + id + ", ownerId=" + ownerId + ", assessedValue=" + assessedValue + ", building=" + building
+				+ "]";
+	}
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
@@ -40,6 +47,7 @@ public class Land implements simulateable {
 	public void generate() {
 		this.id = NodeMain.genID();
 		this.setOwnerId(NO_OWNER);
+		this.building = new Building();
 		
 	}
 	@Override
@@ -58,6 +66,12 @@ public class Land implements simulateable {
 	}
 	public void setAssessedValue(int assessedValue) {
 		this.assessedValue = assessedValue;
+	}
+	public Building getBuilding() {
+		return building;
+	}
+	public void setBuilding(Building building) {
+		this.building = building;
 	}
 	
 

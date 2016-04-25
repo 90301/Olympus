@@ -2,6 +2,7 @@ package topLevel;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+import buildings.Land;
 import goods.Food;
 
 /**
@@ -18,12 +19,13 @@ public class NodeMain {
 	public static final String SIMULATION_PAUSED = "Paused";
 	public static final String SIMULATION_ENDING = "Ending";
 	public static final int TOP_LEVEL_STRUCTURES = 100;
+	public static final int LAND_PER_CITY = 100;
 
 	// Top level data structures
 
 	public static ConcurrentHashMap<String, City> cities = new ConcurrentHashMap<String, City>();
 	public static ConcurrentHashMap<String, Person> people = new ConcurrentHashMap<String, Person>();
-	
+	public static ConcurrentHashMap<String, Land> land = new ConcurrentHashMap<String, Land>();
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -65,7 +67,6 @@ public class NodeMain {
 	private static long nextId = 0;
 
 	public static String genID() {
-		System.out.println(nextId);
 		return "" + nextId++;
 	}
 

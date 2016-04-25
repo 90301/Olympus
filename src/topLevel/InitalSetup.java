@@ -11,6 +11,15 @@ import goods.Food;
  */
 public class InitalSetup {
 	public static String[] names = new String[11];
+	
+	public static void setupCities() {
+		for (int i = 0; i < NodeMain.TOP_LEVEL_STRUCTURES; i++) {
+			City c = new City();
+			c.generateCity(100);
+			NodeMain.cities.put(c.getId(), c);
+		}
+	}
+
 	public static void setupInitalFoods() {
 		
 		//base ingredients
@@ -21,8 +30,7 @@ public class InitalSetup {
 		names[4] = "Berries";
 		names[5] = "Vegtables";
 		//T1 food
-		names[6] = "Flour";
-		//process wheat or rice
+		names[6] = "Flour";//process wheat or rice
 		names[7] = "Fruit Mix";
 		names[8] = "Salad";
 		//T2 food
@@ -58,11 +66,5 @@ public class InitalSetup {
 		System.out.println(c1);
 	}
 	
-	public static void setupCities() {
-		for (int i = 0; i < NodeMain.TOP_LEVEL_STRUCTURES; i++) {
-			City c = new City();
-			c.generateCity(100);
-			NodeMain.cities.put(c.getId(), c);
-		}
-	}
+	
 }
