@@ -1,5 +1,6 @@
 package topLevel;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import buildings.*;
 /**
@@ -19,8 +20,8 @@ public class Person implements simulateable {
 
 
 	private City city;//The city currently in.
-	private ArrayList<Land> landOwned = new ArrayList<Land>();
-	private ArrayList<Building> buildingsOwned = new ArrayList<Building>();
+	private HashSet<Land> landOwned = new HashSet<Land>();
+	private HashSet<Building> buildingsOwned = new HashSet<Building>();
 	
 	/*
 	 * TODO: add inventory system
@@ -94,24 +95,11 @@ public class Person implements simulateable {
 		this.city = city;
 	}
 
-
-	public ArrayList<Land> getLandOwned() {
-		return landOwned;
+	public void addOwnedLand(Land l) {
+		landOwned.add(l);
 	}
-
-
-	public void setLandOwned(ArrayList<Land> landOwned) {
-		this.landOwned = landOwned;
-	}
-
-
-	public ArrayList<Building> getBuildingsOwned() {
-		return buildingsOwned;
-	}
-
-
-	public void setBuildingsOwned(ArrayList<Building> buildingsOwned) {
-		this.buildingsOwned = buildingsOwned;
+	public void removedOwnedLand(Land l) {
+		landOwned.remove(l);
 	}
 
 	

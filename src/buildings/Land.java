@@ -1,5 +1,6 @@
 package buildings;
 import topLevel.NodeMain;
+import topLevel.Person;
 import topLevel.simulateable;
 
 /**
@@ -13,6 +14,8 @@ public class Land implements simulateable {
 	
 	private String id;
 	private String ownerId;
+	//Either a person who owns the land, or null if no owner (check no owner first)
+	private Person owner;
 	public static final String NO_OWNER = "No Owner";
 	private int assessedValue;
 	public static final int NO_ASSESSMENT = -1;
@@ -48,6 +51,7 @@ public class Land implements simulateable {
 		this.id = NodeMain.genID();
 		this.setOwnerId(NO_OWNER);
 		this.building = new Building();
+		this.building.generate();
 		
 	}
 	@Override
@@ -58,9 +62,14 @@ public class Land implements simulateable {
 	public String getOwnerId() {
 		return ownerId;
 	}
+	
 	public void setOwnerId(String ownerId) {
 		this.ownerId = ownerId;
+		if (ownerId!=NO_OWNER) {
+			this.owner = NodeMain.people.get(ownerId);
+		}
 	}
+	
 	public int getAssessedValue() {
 		return assessedValue;
 	}
@@ -72,6 +81,13 @@ public class Land implements simulateable {
 	}
 	public void setBuilding(Building building) {
 		this.building = building;
+	}
+	public Person getOwner() {
+		return owner;
+	}
+	public void setOwner(Person owner) {
+		this.owner = owner;
+		this.ownerId = owner.getId();
 	}
 	
 

@@ -18,6 +18,12 @@ public class Building implements simulateable {
 	private String buildingName;
 	private int buildingType = 0;
 	
+	@Override
+	public String toString() {
+		return "Building [id=" + id + ", buildingName=" + buildingName + ", buildingType=" + buildingType
+				+ ", subBuilding=" + subBuilding + "]";
+	}
+
 	//building constants
 	public static final int VACANT_LOT = 0;
 	public static final int FARMLAND = 1;

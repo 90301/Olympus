@@ -1,6 +1,8 @@
 package topLevel;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import buildings.Land;
@@ -26,21 +28,38 @@ public class City implements simulateable {
 	public void generateCity(int initalPopulation) {
 		this.id = NodeMain.genID();
 		this.setCityName("City: " + this.id);
+		//create people
 		for (int i=0;i<initalPopulation;i++) {
 			Person p = new Person();
 			p.generatePerson();
 			people.put(p.getId(), p);
 			NodeMain.people.put(p.getId(), p);
 		}
+		//create land
 		for (int i=0;i<NodeMain.LAND_PER_CITY;i++) {
 			Land l = new Land();
 			l.generate();
 			land.put(l.getId(), l);
 			NodeMain.land.put(l.getId(), l);
-			System.out.println(l);
+			//System.out.println(l);
+		}
+		//RANDOM LAND ASSIGNMENT
+		if (NodeMain.RANDOM_LAND_ASSIGNMENT) {
+			Random r = new Random(555);
+			ArrayList<String> peopleIds = new ArrayList<String>();
+			peopleIds.addAll(people.keySet());
+			for (Land l : land.values()) {
+			
+			String randomKey = peopleIds.get(r.nextInt(peopleIds.size()));
+			Person p = people.get(randomKey);
+			l.setOwnerId(randomKey);
+			p.addOwnedLand(l);
+			//System.out.println("Person: " + p + " Owns: " + l);
+			
+			
+			}
 		}
 		
-		//generate land (city level?)
 	}
 	
 	/**

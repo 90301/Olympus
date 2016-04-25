@@ -20,6 +20,7 @@ public class NodeMain {
 	public static final String SIMULATION_ENDING = "Ending";
 	public static final int TOP_LEVEL_STRUCTURES = 100;
 	public static final int LAND_PER_CITY = 100;
+	public static final boolean RANDOM_LAND_ASSIGNMENT = true;
 
 	// Top level data structures
 
