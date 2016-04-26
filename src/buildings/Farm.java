@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import topLevel.Inventory;
 import topLevel.Person;
 
 /**
@@ -59,6 +60,8 @@ public class Farm implements SubBuilding {
 	//put that information into a map.
 	private HashMap<String,EmploymentInfo> employmentInfo = new HashMap<String,EmploymentInfo>();
 	
+	private Inventory inventory = new Inventory();
+	
 	//WORK CODES for FARM
 	public static final int MANAGE_WORKERS = 0;
 	public static final int PLANT_CROPS = 1;
@@ -74,7 +77,7 @@ public class Farm implements SubBuilding {
 	public void simulateStep() {
 		//grow crops
 		crops.stream().forEach(s -> s.simulateStep());
-		
+		System.out.println("Simulating farm: " + this);
 		
 		
 	}
@@ -116,6 +119,7 @@ public class Farm implements SubBuilding {
 	public void generate() {
 		funds = 500;//STARTING CAPITAL
 		OwnerManaging = true;//this may need to be changed
+		inventory.generate();
 		
 	}
 	
@@ -254,8 +258,7 @@ public class Farm implements SubBuilding {
 	}
 	@Override
 	public int collectPay(Person worker) {
-		// TODO Auto-generated method stub
-		return 0;
+		return employmentInfo.get(worker).collectPay();
 	}
 
 	public int getPlots() {

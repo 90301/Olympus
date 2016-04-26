@@ -38,9 +38,6 @@ public class Food implements good {
 	}
 	
 	
-	
-	
-	
 	public Food() {
 		
 	}
@@ -127,6 +124,11 @@ public class Food implements good {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	@Override
+	public int getGoodType() {
+		return good.GOOD_TYPE_FOOD;
 	}
 
 }

@@ -20,5 +20,11 @@ public interface good extends simulateable {
 	
 	public int assessValue();
 	
+	public int getGoodType();
+	
+	
+	//GOOD TYPE CONSTANTS
+	public static int GOOD_TYPE_FOOD = 1;
+	
 
 }
