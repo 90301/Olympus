@@ -3,6 +3,7 @@ package buildings;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
+import goods.Food;
 import goods.good;
 import topLevel.NodeMain;
 import topLevel.simulateable;
@@ -93,9 +94,20 @@ public class Crop implements simulateable {
 		//TODO: add randomization
 		this.cropDeathTime = c.cropDeathTime;
 		this.growTimeLeft = c.growTimeLeft;
-		this.harvestableGoods = c.harvestableGoods;
+		//this.harvestableGoods = c.harvestableGoods;
 		this.destoryOnHarvest = c.destoryOnHarvest;
 		this.cropRegrowTime = c.cropRegrowTime;
+		
+		for (good g:c.harvestableGoods) {
+			if (g.getGoodType()==good.GOOD_TYPE_FOOD) {
+				//gen new food item
+				Food genFood = new Food();
+				Food f = (Food) g;
+				genFood.generateFrom(f);
+				this.addHarvestableGood(genFood);
+				
+			}
+		}
 		this.generate();
 		}
 		

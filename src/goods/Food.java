@@ -41,7 +41,21 @@ public class Food implements good {
 	public Food() {
 		
 	}
-
+	/**
+	 * generates food
+	 * calls generate.
+	 * @param f the food to generate from
+	 */
+	public void generateFrom(Food f) {
+		this.foodName = f.foodName;
+		this.nutritionValue = f.nutritionValue;
+		this.tasteValue = f.tasteValue;
+		this.volume = f.volume;
+		this.mass = f.mass;
+		this.timeLeft = f.timeLeft;
+		this.generate();
+	}
+	
 	@Override
 	public int getMass() {
 		return mass;
@@ -119,7 +133,7 @@ public class Food implements good {
 	}
 	
 	public String toString() {
-		return "Food: " + this.foodName +" Nurtition: " + nutritionValue + " Taste: " + tasteValue + goodStatToString();
+		return "Food: " + this.foodName +" Nurtition: " + nutritionValue + " Taste: " + tasteValue + goodStatToString() + " id: " + this.id;
 	}
 
 	public void setId(String id) {
