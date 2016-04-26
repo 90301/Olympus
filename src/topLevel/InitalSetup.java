@@ -13,9 +13,9 @@ public class InitalSetup {
 	public static String[] names = new String[11];
 	
 	public static void setupCities() {
-		for (int i = 0; i < NodeMain.TOP_LEVEL_STRUCTURES; i++) {
+		for (int i = 0; i < NodeMain.NUM_CITIES; i++) {
 			City c = new City();
-			c.generateCity(100);
+			c.generateCity(NodeMain.PEOPLE_PER_CITY);
 			NodeMain.cities.put(c.getId(), c);
 		}
 	}

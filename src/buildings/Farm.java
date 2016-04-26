@@ -146,33 +146,42 @@ public class Farm implements SubBuilding {
 		EmploymentInfo eInfo = employmentInfo.get(worker.getId());
 		
 		if (eInfo.getWorkCode()==MANAGE_WORKERS) {
-			managementAI();
+			managementAI(worker);
 		} else if(eInfo.getWorkCode()==IDLE) {
-			idleAI();
+			idleAI(worker);
+		} else if(eInfo.getWorkCode()==PLANT_CROPS) {
+			plantCropsAI(worker);
 		}
 		
 		
 		return true;
 	}
 
-	private void managementAI() {
+	private void plantCropsAI(Person worker) {
+		if (crops.size()<plots) {
+			//plant crops
+			Crop cropToPlant = new Crop();
+			String baseCropType = "";
+			//pick the crop
+			for(Crop baseCrop : Crop.baseCrops.values()) {
+				//TODO: add AI here to decide which crop to plant.
+				baseCropType = baseCrop.getCropType();
+			}
+			cropToPlant.setCropType(baseCropType);
+			crops.add(cropToPlant);
+			System.out.println("Planted crop: " + cropToPlant);
+		} else {
+			//no available plots, idle or go to management
+			employmentInfo.get(worker.getId()).setWorkCode(IDLE);
+		}
+		
+	}
+
+	private void managementAI(Person worker) {
 		//DETERMINE NEED
 		
-		//TODO: improve this to have real AI
+		//TODO: improve this to have real AI (with personality traits)
 		//survey employment
-		/*
-		int harvestCapacity = 0;
-		int plantCapacity = 0;
-		int managementCapacity = 0;
-		for (EmploymentInfo e : employmentInfo.values()) {
-			if (e.getWorkCode()==HARVEST_CROPS)
-				harvestCapacity++;
-			if (e.getWorkCode()==PLANT_CROPS)
-				plantCapacity++;
-			if(e.getWorkCode()==MANAGE_WORKERS)
-				managementCapacity++;
-		}
-		*/
 		Map<Integer,Integer> employment = surveyEmployment();
 		//For right now, management should not exceed 1.
 		
@@ -213,9 +222,12 @@ public class Farm implements SubBuilding {
 		}
 	}
 	
-	private void idleAI() {
+	private void idleAI(Person worker) {
 		//Switch to manager if there are no managers.
-		
+		Map<Integer,Integer> employment = surveyEmployment();
+		if (employment.get(MANAGE_WORKERS)==null) {
+			employmentInfo.get(worker.getId()).setWorkCode(MANAGE_WORKERS);
+		}
 	}
 	/**
 	 * survey what people are working.

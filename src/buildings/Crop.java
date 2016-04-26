@@ -72,7 +72,13 @@ public class Crop implements simulateable {
 	public String getCropType() {
 		return cropType;
 	}
-
+	/**
+	 * Sets the crop type and duplicates the data from the
+	 * base crop. Also calls generate (so there's no need to
+	 * call that manually)
+	 * TODO: For a randomization of the crop, call another method.
+	 * @param cropType
+	 */
 	public void setCropType(String cropType) {
 		this.cropType = cropType;
 		
