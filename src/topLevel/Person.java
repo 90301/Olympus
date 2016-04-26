@@ -42,6 +42,7 @@ public class Person implements simulateable {
 				building.setBuildingType(Building.FARMLAND);
 				//System.out.println(building);
 			}
+			building.getSubBuilding().work(this);
 		}
 		
 		if (age > MAX_AGE) {

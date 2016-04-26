@@ -60,6 +60,14 @@ public class EmploymentInfo {
 	}
 	public void setWorkCode(int workCode) {
 		this.workCode = workCode;
+		System.out.println("Set Work Code: " + this.workCode + " // " +this);
+	}
+
+	@Override
+	public String toString() {
+		return "EmploymentInfo [payPerWorkCycle=" + payPerWorkCycle + ", comissionTotal=" + comissionTotal
+				+ ", payOwed=" + payOwed + ", person=" + person + ", building=" + building + ", workCode=" + workCode
+				+ "]";
 	}
 
 }

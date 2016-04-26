@@ -2,6 +2,7 @@ package buildings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import topLevel.Person;
 
@@ -65,11 +66,13 @@ public class Farm implements SubBuilding {
 	public static final int TEND_CROPS = 3;
 	public static final int IDLE = 4;//if action can not be completed anymore, wait for new orders.
 	public static final int SELL_CROPS = 5;
+	private static final int DEDICATED_MANAGEMENT_START = 10;//The point at which a dedicated manager is required.
 	/**
 	 * Grow crops
 	 */
 	@Override
 	public void simulateStep() {
+		//grow crops
 		crops.stream().forEach(s -> s.simulateStep());
 		
 		
@@ -143,61 +146,100 @@ public class Farm implements SubBuilding {
 		EmploymentInfo eInfo = employmentInfo.get(worker.getId());
 		
 		if (eInfo.getWorkCode()==MANAGE_WORKERS) {
-			//DETERMINE NEED
-			
-			//TODO: improve this to have real AI
-			//survey employment
-			int harvestCapacity = 0;
-			int plantCapacity = 0;
-			int managementCapacity = 0;
-			for (EmploymentInfo e : employmentInfo.values()) {
-				if (e.getWorkCode()==HARVEST_CROPS)
-					harvestCapacity++;
-				if (e.getWorkCode()==PLANT_CROPS)
-					plantCapacity++;
-				if(e.getWorkCode()==MANAGE_WORKERS)
-					managementCapacity++;
-			}
-			//For right now, management should not exceed 1.
-			
-			//survey plots and crops
-			int harvestReq = 0;
-			for (Crop crop : crops) {
-				if (crop.isHarvestable()) {
-					harvestReq++;
-				}
-			}
-			harvestReq -= harvestCapacity;
-			int plantReq = 0;
-			if (crops.size() < plots) {
-				plantReq = plots-crops.size();
-			}
-			plantReq -= plantCapacity;
-			//TODO: add and check inventory for sales.
-			
-			
-			for (EmploymentInfo e : employmentInfo.values()) {
-				if (e.getWorkCode()==IDLE) {
-					//put the employee to work
-					
-					e.setWorkCode(PLANT_CROPS);
-					if (harvestReq>0) {
-						harvestReq--;
-						e.setWorkCode(HARVEST_CROPS);
-					}
-					if (plantReq>0) {
-					e.setWorkCode(PLANT_CROPS);
-					plantReq--;
-					}
-					
-				}
-			}
+			managementAI();
+		} else if(eInfo.getWorkCode()==IDLE) {
+			idleAI();
 		}
 		
 		
 		return true;
 	}
 
+	private void managementAI() {
+		//DETERMINE NEED
+		
+		//TODO: improve this to have real AI
+		//survey employment
+		/*
+		int harvestCapacity = 0;
+		int plantCapacity = 0;
+		int managementCapacity = 0;
+		for (EmploymentInfo e : employmentInfo.values()) {
+			if (e.getWorkCode()==HARVEST_CROPS)
+				harvestCapacity++;
+			if (e.getWorkCode()==PLANT_CROPS)
+				plantCapacity++;
+			if(e.getWorkCode()==MANAGE_WORKERS)
+				managementCapacity++;
+		}
+		*/
+		Map<Integer,Integer> employment = surveyEmployment();
+		//For right now, management should not exceed 1.
+		
+		//survey plots and crops
+		int harvestReq = 0;
+		for (Crop crop : crops) {
+			if (crop.isHarvestable()) {
+				harvestReq++;
+			}
+		}
+		if (employment.get(HARVEST_CROPS) != null) { 
+			harvestReq -= employment.get(HARVEST_CROPS);
+		}
+		int plantReq = 0;
+		if (crops.size() < plots) {
+			plantReq = plots-crops.size();
+		}
+		if (employment.get(PLANT_CROPS) != null) {
+		plantReq -= employment.get(HARVEST_CROPS);
+		}
+		//TODO: add and check inventory for sales.
+		
+		
+		for (EmploymentInfo e : employmentInfo.values()) {
+			//if idle or a manager of a small business.
+			if (e.getWorkCode()==IDLE || 
+					(e.getWorkCode()==MANAGE_WORKERS && employmentInfo.size()<DEDICATED_MANAGEMENT_START)) {
+				//put the employee to work if idle
+				if (harvestReq>0) {
+					harvestReq--;
+					e.setWorkCode(HARVEST_CROPS);
+				}
+				if (plantReq>0) {
+					e.setWorkCode(PLANT_CROPS);
+					plantReq--;
+				}
+			}
+		}
+	}
+	
+	private void idleAI() {
+		//Switch to manager if there are no managers.
+		
+	}
+	/**
+	 * survey what people are working.
+	 * Returns a map of the number of current positions
+	 * key = work code
+	 * value = number of workers.
+	 * @return a map containing the number of workers for each work code.
+	 */
+	public Map<Integer,Integer> surveyEmployment() {
+		HashMap<Integer,Integer> employmentSurvey = new HashMap<Integer,Integer>();
+		for (EmploymentInfo e : employmentInfo.values()) {
+			//This holds how many workers have the same work code
+			Integer numWorkers = employmentSurvey.get(e.getWorkCode());
+			if (numWorkers==null) {
+				numWorkers = 1;
+			} else {
+				numWorkers++;
+			}
+			
+			employmentSurvey.put(e.getWorkCode(), numWorkers);
+		}
+		
+		return employmentSurvey;
+	}
 	@Override
 	public int collectPay(Person worker) {
 		// TODO Auto-generated method stub
