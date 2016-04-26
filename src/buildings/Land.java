@@ -57,7 +57,9 @@ public class Land implements simulateable {
 	}
 	@Override
 	public void simulateStep() {
-		// TODO Auto-generated method stub
+		if (building!= null) {
+			building.simulateStep();
+		}
 		
 	}
 	public String getOwnerId() {

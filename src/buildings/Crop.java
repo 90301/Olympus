@@ -42,6 +42,10 @@ public class Crop implements simulateable {
 	}
 	
 	public ArrayList<good> harvest() {
+		if (!destoryOnHarvest) {
+			growTimeLeft = cropRegrowTime;
+		}
+		System.out.println("Harvesting goods: " + harvestableGoods);
 		return harvestableGoods;
 	}
 	
@@ -91,6 +95,7 @@ public class Crop implements simulateable {
 		this.growTimeLeft = c.growTimeLeft;
 		this.harvestableGoods = c.harvestableGoods;
 		this.destoryOnHarvest = c.destoryOnHarvest;
+		this.cropRegrowTime = c.cropRegrowTime;
 		this.generate();
 		}
 		

@@ -56,7 +56,9 @@ public class Building implements simulateable {
 
 	@Override
 	public void simulateStep() {
-		
+		if (subBuilding!=null) {
+			subBuilding.simulateStep();
+		}
 
 	}
 	/**

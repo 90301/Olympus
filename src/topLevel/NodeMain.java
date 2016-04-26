@@ -18,8 +18,8 @@ public class NodeMain {
 	public static final String SIMULATION_RUNNING = "Running";
 	public static final String SIMULATION_PAUSED = "Paused";
 	public static final String SIMULATION_ENDING = "Ending";
-	public static final int NUM_CITIES = 2;
-	public static final int LAND_PER_CITY = 10;
+	public static final int NUM_CITIES = 1;
+	public static final int LAND_PER_CITY = 1;
 	public static final int PEOPLE_PER_CITY = 25;
 
 	public static final boolean RANDOM_LAND_ASSIGNMENT = true;

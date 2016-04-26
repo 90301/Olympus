@@ -77,7 +77,7 @@ public class Farm implements SubBuilding {
 	public void simulateStep() {
 		//grow crops
 		crops.stream().forEach(s -> s.simulateStep());
-		System.out.println("Simulating farm: " + this);
+		//System.out.println("Simulating farm: " + this);
 		
 		
 	}
@@ -155,12 +155,27 @@ public class Farm implements SubBuilding {
 			idleAI(worker);
 		} else if(eInfo.getWorkCode()==PLANT_CROPS) {
 			plantCropsAI(worker);
+		} else if (eInfo.getWorkCode()==HARVEST_CROPS) {
+			harvestCropsAI(worker);
 		}
 		
 		
 		return true;
 	}
-
+	private void harvestCropsAI(Person worker) {
+		//Find the next harvestable plot
+		Crop harvestableCrop = null;
+		for (Crop c : crops) {
+			if (c.isHarvestable()) {
+				harvestableCrop = c;
+			}
+		}
+		if (harvestableCrop!=null) {
+			inventory.addGoods(harvestableCrop.harvest());
+		} else {
+			employmentInfo.get(worker.getId()).setWorkCode(IDLE);
+		}
+	}
 	private void plantCropsAI(Person worker) {
 		if (crops.size()<plots) {
 			//plant crops
