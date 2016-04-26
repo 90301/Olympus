@@ -18,15 +18,28 @@ import topLevel.Person;
 public class Farm implements SubBuilding {
 
 	public Farm() {
+		
 	}
 	//data structures
 	private int plots = 20;//this depends on the size of the farm, indicates how many crops can be grown concurrently.
 	private ArrayList<Crop> crops = new ArrayList<Crop>();
 	private Person owner;
+	//This is just a shortcut for accessing the owner of the building
+	//Later incarnations may have it so the owner of the sub building may not be the owner
+	//of the land, so rent would be imposed.
+	
+	//land can be accessed through the building.
+	private Building building;
+	/*
+	 * TODO: Add banking system to extract payments from accounts
+	 */
+	private int funds;
 	/**
 	 * This holds all the workers for this farm. the key field is the id
 	 * of the worker, the Person field holds the worker. (this data structure may change
 	 * to a set of ids when global lookups are implemented.)
+	 * 
+	 * TODO: This may not be needed anymore
 	 */
 	private HashMap<String, Person> workers = new HashMap<String, Person>();
 	/**
@@ -36,17 +49,30 @@ public class Farm implements SubBuilding {
 	 * Persons id.
 	 */
 	private HashMap<String, String> specialWorkers = new HashMap<String,String>();
-	/**
-	 * The pay owed to specific workers, key is worker id, value is pay owed.
-	 * if nothing is owed, the value may be null.
-	 */
-	private HashMap<String, Integer> payOwed = new HashMap<String,Integer>();
+
+	
+	private boolean OwnerManaging;//set to false if someone else manages the farm
+	
+	private int basePayRate = 10;//TODO: make this into an "employment" class which details information
+	//about how an employee will be paid, and other information
+	//put that information into a map.
+	private HashMap<String,EmploymentInfo> employmentInfo = new HashMap<String,EmploymentInfo>();
+	
+	//WORK CODES for FARM
+	public static final int MANAGE_WORKERS = 0;
+	public static final int PLANT_CROPS = 1;
+	public static final int HARVEST_CROPS = 2;
+	public static final int TEND_CROPS = 3;
+	public static final int IDLE = 4;//if action can not be completed anymore, wait for new orders.
+	public static final int SELL_CROPS = 5;
 	/**
 	 * Grow crops
 	 */
 	@Override
 	public void simulateStep() {
 		crops.stream().forEach(s -> s.simulateStep());
+		
+		
 		
 	}
 	
@@ -85,20 +111,91 @@ public class Farm implements SubBuilding {
 
 	@Override
 	public void generate() {
-		// TODO Auto-generated method stub
+		funds = 500;//STARTING CAPITAL
+		OwnerManaging = true;//this may need to be changed
 		
 	}
+	
+
 
 	@Override
 	public Boolean hire(Person hirePerson) {
-		// TODO Auto-generated method stub
+		workers.put(hirePerson.getId(), hirePerson);
+		
+		EmploymentInfo eInfo = new EmploymentInfo();
+		eInfo.setBuilding(this);
+		eInfo.setComissionTotal(0);
+		eInfo.setPerson(hirePerson);
+		eInfo.setPayPerWorkCycle(basePayRate);
+		eInfo.setPayOwed(0);
+		eInfo.setWorkCode(IDLE);
+		employmentInfo.put(hirePerson.getId(), eInfo);
 		return true;
 	}
 
 	@Override
 	public Boolean work(Person worker) {
-		// TODO Auto-generated method stub
-		return null;
+		if (worker==owner) {
+			//owner working
+		} else {
+			//paid employee
+		}
+		EmploymentInfo eInfo = employmentInfo.get(worker.getId());
+		
+		if (eInfo.getWorkCode()==MANAGE_WORKERS) {
+			//DETERMINE NEED
+			
+			//TODO: improve this to have real AI
+			//survey employment
+			int harvestCapacity = 0;
+			int plantCapacity = 0;
+			int managementCapacity = 0;
+			for (EmploymentInfo e : employmentInfo.values()) {
+				if (e.getWorkCode()==HARVEST_CROPS)
+					harvestCapacity++;
+				if (e.getWorkCode()==PLANT_CROPS)
+					plantCapacity++;
+				if(e.getWorkCode()==MANAGE_WORKERS)
+					managementCapacity++;
+			}
+			//For right now, management should not exceed 1.
+			
+			//survey plots and crops
+			int harvestReq = 0;
+			for (Crop crop : crops) {
+				if (crop.isHarvestable()) {
+					harvestReq++;
+				}
+			}
+			harvestReq -= harvestCapacity;
+			int plantReq = 0;
+			if (crops.size() < plots) {
+				plantReq = plots-crops.size();
+			}
+			plantReq -= plantCapacity;
+			//TODO: add and check inventory for sales.
+			
+			
+			for (EmploymentInfo e : employmentInfo.values()) {
+				if (e.getWorkCode()==IDLE) {
+					//put the employee to work
+					
+					e.setWorkCode(PLANT_CROPS);
+					if (harvestReq>0) {
+						harvestReq--;
+						e.setWorkCode(HARVEST_CROPS);
+					}
+					if (plantReq>0) {
+					e.setWorkCode(PLANT_CROPS);
+					plantReq--;
+					}
+					
+				}
+			}
+		}
+		
+		
+		return true;
 	}
 
 	@Override
@@ -121,6 +218,30 @@ public class Farm implements SubBuilding {
 
 	public void setOwner(Person owner) {
 		this.owner = owner;
+		this.hire(owner);
+		this.employmentInfo.get(owner.getId()).setWorkCode(MANAGE_WORKERS);
 	}
 
+	public int getFunds() {
+		return funds;
+	}
+
+	public void setFunds(int funds) {
+		this.funds = funds;
+	}
+
+	public Building getBuilding() {
+		return building;
+	}
+
+	public void setBuilding(Building building) {
+		this.building = building;
+	}
+	public boolean isOwnerManaging() {
+		return OwnerManaging;
+	}
+
+	public void setOwnerManaging(boolean ownerManaging) {
+		OwnerManaging = ownerManaging;
+	}
 }
