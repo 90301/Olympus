@@ -23,7 +23,12 @@ public class Inventory implements simulateable {
 	 * @param g the good to add
 	 */
 	public void addGood(good g) {
-		inventory.put(g.getId(), g);
+		if (inventory.get(g.getStaticId())!=null) {
+			this.inventory.get(g.getStaticId()).addQuantity(g.getQuantity());
+			
+		} else {
+		inventory.put(g.getStaticId(), g);
+		}
 	}
 	
 	/**
@@ -40,6 +45,7 @@ public class Inventory implements simulateable {
 		return inventory.values();
 		
 	}
+	
 	
 	@Override
 	public String getId() {

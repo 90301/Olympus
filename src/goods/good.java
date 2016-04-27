@@ -1,4 +1,6 @@
 package goods;
+import java.util.concurrent.ConcurrentHashMap;
+
 import topLevel.*;
 /**
  * The interface for an economic good, or
@@ -7,6 +9,26 @@ import topLevel.*;
  *
  */
 public interface good extends simulateable {
+	//GOOD TYPE CONSTANTS
+	public static int GOOD_TYPE_FOOD = 1;
+		
+		
+		
+	public static ConcurrentHashMap<String, good> allGoods = new ConcurrentHashMap<String, good>();
+	
+	public static void addBaseGood(good g) {
+		allGoods.put(g.getStaticId(), g);
+	}
+	
+	public default void generateFrom(good g) {
+		//set stats to be the same
+		//could be generating from a base good, or generating for a transfer.
+		this.setGoodStats(g.getVolume(), g.getMass());
+		this.setQuantity(g.getQuantity());
+		this.generate();
+	}
+	
+	public String getStaticId();
 	
 	public int getMass();
 	
@@ -22,9 +44,25 @@ public interface good extends simulateable {
 	
 	public int getGoodType();
 	
+	//Quantity
+	public int getQuantity();
+	/**
+	 * adds an amount to the quantity of the good
+	 * @param i 
+	 * @return the current quantity of the good (after addition)
+	 */
+	public int addQuantity(int quantity);
+	/**
+	 * Removes a quantity of an item
+	 * TODO: mark object for removal if quantity <=0
+	 * @return the quantity remaining
+	 */
+	public int removeQuantity(int quantity);
+	/**
+	 * Sets the quantity variable
+	 */
+	public void setQuantity(int quantity);
 	
-	//GOOD TYPE CONSTANTS
-	public static int GOOD_TYPE_FOOD = 1;
 	
 
 }

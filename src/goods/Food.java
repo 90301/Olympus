@@ -15,6 +15,7 @@ public class Food implements good {
 	
 	//the id for the food, or BASE_FOOD_ID if a base food.
 	private String id;
+	private String staticId;
 	public static final String BASE_FOOD_ID = "Base Food"; 
 	public static final int EXPIRED_FOOD_VALUE = -10;
 	//the name of the food
@@ -24,6 +25,7 @@ public class Food implements good {
 	*/
 	public static ConcurrentMap<String,Food> baseFoods = new ConcurrentHashMap<String,Food>();
 	
+	private int quantity;
 	/*
 	 * Food stats
 	 */
@@ -34,7 +36,9 @@ public class Food implements good {
 	private int mass;
 	
 	public static void createBaseFood(Food f) {
+		f.staticId = NodeMain.genID();
 		baseFoods.putIfAbsent(f.foodName, f);
+		good.addBaseGood(f);
 	}
 	
 	
@@ -44,17 +48,24 @@ public class Food implements good {
 	/**
 	 * generates food
 	 * calls generate.
+	 * Sets Quantity to 1
 	 * @param f the food to generate from
 	 */
-	public void generateFrom(Food f) {
+	public void generateFromFood(Food f) {
 		this.foodName = f.foodName;
 		this.nutritionValue = f.nutritionValue;
 		this.tasteValue = f.tasteValue;
 		this.volume = f.volume;
 		this.mass = f.mass;
 		this.timeLeft = f.timeLeft;
+		this.staticId = f.staticId;
+		this.quantity = 1;
 		this.generate();
 	}
+	@Override
+	public void generateFrom(good g) {
+		this.generateFromFood(((Food) g));
+	};
 	
 	@Override
 	public int getMass() {
@@ -132,9 +143,7 @@ public class Food implements good {
 		this.timeLeft = timeLeft;
 	}
 	
-	public String toString() {
-		return "Food: " + this.foodName +" Nurtition: " + nutritionValue + " Taste: " + tasteValue + goodStatToString() + " id: " + this.id;
-	}
+	
 
 	public void setId(String id) {
 		this.id = id;
@@ -144,5 +153,54 @@ public class Food implements good {
 	public int getGoodType() {
 		return good.GOOD_TYPE_FOOD;
 	}
+
+
+	@Override
+	public int getQuantity() {
+		return this.quantity;
+	}
+
+
+	@Override
+	public int addQuantity(int quantity) {
+		this.quantity += quantity;
+		return this.quantity;
+	}
+
+
+	@Override
+	public int removeQuantity(int quantity) {
+		this.quantity -= quantity;
+		return this.quantity;
+	}
+
+
+	@Override
+	public String getStaticId() {
+		// TODO Auto-generated method stub
+		return staticId;
+	}
+
+
+	@Override
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+		
+	}
+	/*
+public String toString() {
+		return "Food: " + this.foodName +" Nurtition: " + nutritionValue + " Taste: " + tasteValue + goodStatToString() + " id: " + this.id;
+	}
+	*/
+
+
+	@Override
+	public String toString() {
+		return "Food [id=" + id + ", staticId=" + staticId + ", foodName=" + foodName + ", quantity=" + quantity
+				+ ", nutritionValue=" + nutritionValue + ", tasteValue=" + tasteValue + ", timeLeft=" + timeLeft
+				+ ", volume=" + volume + ", mass=" + mass + "]";
+	}
+	
+
 
 }
