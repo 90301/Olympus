@@ -66,8 +66,8 @@ public class City implements simulateable {
 	 * The simulation step process for a city
 	 */
 	public void simulateStep() {
-		people.values().stream().forEach(s -> s.simulateStep());
-		land.values().stream().forEach(l -> l.simulateStep());
+		people.values().parallelStream().forEach(s -> s.simulateStep());
+		land.values().parallelStream().forEach(l -> l.simulateStep());
 	}
 	
 	
