@@ -3,6 +3,7 @@ package buildings;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import topLevel.Inventory;
 import topLevel.Person;
@@ -24,7 +25,7 @@ public class Farm implements SubBuilding {
 	}
 	//data structures
 	private int plots = 20;//this depends on the size of the farm, indicates how many crops can be grown concurrently.
-	private ArrayList<Crop> crops = new ArrayList<Crop>();
+	private ConcurrentHashMap<String,Crop> crops = new ConcurrentHashMap<String,Crop>();
 	private Person owner;
 	//This is just a shortcut for accessing the owner of the building
 	//Later incarnations may have it so the owner of the sub building may not be the owner
@@ -76,7 +77,11 @@ public class Farm implements SubBuilding {
 	@Override
 	public void simulateStep() {
 		//grow crops
-		crops.stream().forEach(s -> s.simulateStep());
+		//crops.stream().forEach(s -> s.simulateStep());
+		for (Crop c : crops.values()) {
+			if (c!=null)
+				c.simulateStep();
+		}
 		//System.out.println("Simulating farm: " + this);
 		
 		
@@ -87,7 +92,7 @@ public class Farm implements SubBuilding {
 		Crop c = new Crop();
 		c.setCropType(baseCrop.getCropType());
 		c.generate();
-		crops.add(c);
+		crops.put(c.getId(), c);
 		}
 	}
 
@@ -165,7 +170,7 @@ public class Farm implements SubBuilding {
 	private void harvestCropsAI(Person worker) {
 		//Find the next harvestable plot
 		Crop harvestableCrop = null;
-		for (Crop c : crops) {
+		for (Crop c : crops.values()) {
 			if (c.isHarvestable()) {
 				harvestableCrop = c;
 			}
@@ -187,7 +192,8 @@ public class Farm implements SubBuilding {
 				baseCropType = baseCrop.getCropType();
 			}
 			cropToPlant.setCropType(baseCropType);
-			crops.add(cropToPlant);
+			cropToPlant.setFarm(this);
+			crops.put(cropToPlant.getId(), cropToPlant);
 			System.out.println("Planted crop: " + cropToPlant);
 		} else {
 			//no available plots, idle or go to management
@@ -206,7 +212,7 @@ public class Farm implements SubBuilding {
 		
 		//survey plots and crops
 		int harvestReq = 0;
-		for (Crop crop : crops) {
+		for (Crop crop : crops.values()) {
 			if (crop.isHarvestable()) {
 				harvestReq++;
 			}
@@ -315,5 +321,10 @@ public class Farm implements SubBuilding {
 
 	public void setOwnerManaging(boolean ownerManaging) {
 		OwnerManaging = ownerManaging;
+	}
+
+	public void destroyCrop(Crop crop) {
+		this.crops.remove(crop);
+		
 	}
 }

@@ -26,6 +26,8 @@ public class Crop implements simulateable {
 	private int cropDeathTime;//the time (<0) where the crop dies, yielding nothing.
 	private Boolean destoryOnHarvest;//determines if the crop is destoryed on harvest or not
 	private int cropRegrowTime;//time to regrow a crop after harvesting, not applicable to destory on harvest plants.
+	private Boolean cropDeath = false;
+	private Farm farm;
 	
 	public void setId(String id) {
 		this.id = id;
@@ -36,18 +38,18 @@ public class Crop implements simulateable {
 	/*
 	 * Set at crop creation.
 	 */
-	
-	
 	public Crop() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public ArrayList<good> harvest() {
 		if (!destoryOnHarvest) {
 			growTimeLeft = cropRegrowTime;
-			
+		} else {
+			destroyCrop();
 		}
-		System.out.println("Harvesting goods: " + harvestableGoods);
+		//generate harvestableGoods
+		genGoodsForHarvest();
+		//System.out.println("Harvesting goods: " + harvestableGoods);
 		return harvestableGoods;
 	}
 	
@@ -55,11 +57,6 @@ public class Crop implements simulateable {
 		return (growTimeLeft<=0);
 	}
 
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return id;
-	}
 
 	@Override
 	public void generate() {
@@ -71,12 +68,26 @@ public class Crop implements simulateable {
 	public void simulateStep() {
 		growTimeLeft--;
 		if (growTimeLeft < cropDeathTime) {
-			this.harvestableGoods.clear();
+			destroyCrop();
 		}
 	}
 
 	public String getCropType() {
 		return cropType;
+	}
+	public void genGoodsForHarvest() {
+		Crop c = baseCrops.get(cropType);
+		this.harvestableGoods.clear();
+		for (good g:c.harvestableGoods) {
+			if (g.getGoodType()==good.GOOD_TYPE_FOOD) {
+				//gen new food item
+				Food genFood = new Food();
+				Food f = (Food) g;
+				genFood.generateFromFood(f);
+				this.addHarvestableGood(genFood);
+				
+			}
+		}
 	}
 	/**
 	 * Sets the crop type and duplicates the data from the
@@ -98,7 +109,7 @@ public class Crop implements simulateable {
 		//this.harvestableGoods = c.harvestableGoods;
 		this.destoryOnHarvest = c.destoryOnHarvest;
 		this.cropRegrowTime = c.cropRegrowTime;
-		
+		/*
 		for (good g:c.harvestableGoods) {
 			if (g.getGoodType()==good.GOOD_TYPE_FOOD) {
 				//gen new food item
@@ -109,9 +120,20 @@ public class Crop implements simulateable {
 				
 			}
 		}
+		*/
 		this.generate();
 		}
 		
+	}
+	public void destroyCrop() {
+		this.setCropDeath(true);
+		farm.destroyCrop(this);
+	}
+	
+	
+	@Override
+	public String getId() {
+		return id;
 	}
 
 	public void addHarvestableGood(good g) {
@@ -177,6 +199,23 @@ public class Crop implements simulateable {
 		}
 		return rtrn;
 	}
+
+	public Boolean getCropDeath() {
+		return cropDeath;
+	}
+
+	public void setCropDeath(Boolean cropDeath) {
+		this.cropDeath = cropDeath;
+	}
+
+	public Farm getFarm() {
+		return farm;
+	}
+
+	public void setFarm(Farm farm) {
+		this.farm = farm;
+	}
+
 	
 
 }
