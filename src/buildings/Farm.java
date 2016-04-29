@@ -181,7 +181,7 @@ public class Farm implements SubBuilding {
 			}
 		}
 		if (harvestableCrop!=null) {
-			inventory.addGoods(harvestableCrop.harvest());
+			inventory.transferGoods(harvestableCrop.harvest());
 		} else {
 			employmentInfo.get(worker.getId()).setWorkCode(IDLE);
 		}

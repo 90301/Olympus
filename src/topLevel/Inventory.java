@@ -65,4 +65,9 @@ public class Inventory implements simulateable {
 		
 	}
 
+	public void transferGoods(Inventory fromInventory) {
+		this.addGoods(inventory.values());
+		fromInventory.inventory.clear();
+	}
+
 }

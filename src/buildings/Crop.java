@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import goods.Food;
 import goods.good;
+import topLevel.Inventory;
 import topLevel.NodeMain;
 import topLevel.simulateable;
 
@@ -33,15 +34,20 @@ public class Crop implements simulateable {
 		this.id = id;
 	}
 
-	ArrayList<good> harvestableGoods = new ArrayList<good>();//what will be returned when the good finishes growing.
-	
+	//ArrayList<good> harvestableGoods = new ArrayList<good>();//what will be returned when the good finishes growing.
+	Inventory harvestableGoods = new Inventory();
 	/*
 	 * Set at crop creation.
 	 */
 	public Crop() {
 	}
-	
-	public ArrayList<good> harvest() {
+	/**
+	 * Harvest crops (returns an inventory of the crops
+	 * from the harvest. This method also calls to generate the
+	 * goods for the harvest)
+	 * @return
+	 */
+	public Inventory harvest() {
 		if (!destoryOnHarvest) {
 			growTimeLeft = cropRegrowTime;
 		} else {
@@ -77,8 +83,8 @@ public class Crop implements simulateable {
 	}
 	public void genGoodsForHarvest() {
 		Crop c = baseCrops.get(cropType);
-		this.harvestableGoods.clear();
-		for (good g:c.harvestableGoods) {
+		this.harvestableGoods.inventory.clear();
+		for (good g:c.harvestableGoods.inventory.values()) {
 			if (g.getGoodType()==good.GOOD_TYPE_FOOD) {
 				//gen new food item
 				Food genFood = new Food();
@@ -109,18 +115,7 @@ public class Crop implements simulateable {
 		//this.harvestableGoods = c.harvestableGoods;
 		this.destoryOnHarvest = c.destoryOnHarvest;
 		this.cropRegrowTime = c.cropRegrowTime;
-		/*
-		for (good g:c.harvestableGoods) {
-			if (g.getGoodType()==good.GOOD_TYPE_FOOD) {
-				//gen new food item
-				Food genFood = new Food();
-				Food f = (Food) g;
-				genFood.generateFromFood(f);
-				this.addHarvestableGood(genFood);
-				
-			}
-		}
-		*/
+
 		this.generate();
 		}
 		
@@ -137,7 +132,7 @@ public class Crop implements simulateable {
 	}
 
 	public void addHarvestableGood(good g) {
-		harvestableGoods.add(g);
+		harvestableGoods.addGood(g);
 	}
 	public int getGrowTimeLeft() {
 		return growTimeLeft;
@@ -154,15 +149,7 @@ public class Crop implements simulateable {
 	public void setCropDeathTime(int cropDeathTime) {
 		this.cropDeathTime = cropDeathTime;
 	}
-
-	public ArrayList<good> getHarvestableGoods() {
-		return harvestableGoods;
-	}
-
-	public void setHarvestableGoods(ArrayList<good> harvestableGoods) {
-		this.harvestableGoods = harvestableGoods;
-	}
-
+	
 	public Boolean getDestoryOnHarvest() {
 		return destoryOnHarvest;
 	}
@@ -194,7 +181,7 @@ public class Crop implements simulateable {
 			rtrn += " Regrow Time: " + cropRegrowTime;
 		}
 		rtrn += " Produces: ";
-		for (good g : harvestableGoods) {
+		for (good g : harvestableGoods.inventory.values()) {
 			rtrn += g.toString();
 		}
 		return rtrn;
