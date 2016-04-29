@@ -70,10 +70,11 @@ public void setBuildingType(int buildingType) {
 		this.buildingType = buildingType;
 		//create sub building.
 		if (buildingType==FARMLAND) {
-			Farm building = new Farm();
-			building.generate();
-			building.setOwner(this.land.getOwner());
-			subBuilding = building;
+			Farm subBuilding = new Farm();
+			subBuilding.generate();
+			subBuilding.setOwner(this.land.getOwner());
+			subBuilding.setBuilding(this);
+			this.subBuilding = subBuilding;
 			
 			
 		} else if (buildingType==STORE) {

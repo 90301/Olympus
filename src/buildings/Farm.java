@@ -44,7 +44,7 @@ public class Farm implements SubBuilding {
 	 * 
 	 * TODO: This may not be needed anymore
 	 */
-	private HashMap<String, Person> workers = new HashMap<String, Person>();
+	private ConcurrentHashMap<String, Person> workers = new ConcurrentHashMap<String, Person>();
 	/**
 	 * This data structure holds all the special title workers for a particular building.
 	 * It is possible for a special worker to not be a worker, and rather be an owner.
@@ -59,8 +59,8 @@ public class Farm implements SubBuilding {
 	private int basePayRate = 10;//TODO: make this into an "employment" class which details information
 	//about how an employee will be paid, and other information
 	//put that information into a map.
-	private HashMap<String,EmploymentInfo> employmentInfo = new HashMap<String,EmploymentInfo>();
-	
+	private ConcurrentHashMap<String,EmploymentInfo> employmentInfo = new ConcurrentHashMap<String,EmploymentInfo>();
+	private ConcurrentHashMap<String, JobListing> jobListings = new ConcurrentHashMap<>();
 	private Inventory inventory = new Inventory();
 	
 	//WORK CODES for FARM
@@ -230,7 +230,7 @@ public class Farm implements SubBuilding {
 			plantReq = plots-crops.size();
 		}
 		if (employment.get(PLANT_CROPS) != null) {
-		plantReq -= employment.get(HARVEST_CROPS);
+		plantReq -= employment.get(PLANT_CROPS);
 		}
 		//TODO: add and check inventory for sales.
 		
@@ -250,8 +250,15 @@ public class Farm implements SubBuilding {
 				}
 			}
 		}
+		int desiredEmployees = 4;
+		//Hire additional people
+		if (getTotalEmployees() < desiredEmployees) {
+			listJob();
+		}
 	}
-	
+	private int getTotalEmployees() {
+		return jobListings.size() + employmentInfo.size();
+	}
 	private void idleAI(Person worker) {
 		//Switch to manager if there are no managers.
 		Map<Integer,Integer> employment = surveyEmployment();
@@ -330,6 +337,23 @@ public class Farm implements SubBuilding {
 
 	public void destroyCrop(Crop crop) {
 		this.crops.remove(crop);
+		
+	}
+	
+
+	@Override
+	public void listJob() {
+		EmploymentInfo eInfo = new EmploymentInfo();
+		eInfo.setBuilding(this);
+		eInfo.setComissionTotal(0);
+		eInfo.setPerson(null);
+		eInfo.setPayPerWorkCycle(basePayRate);
+		eInfo.setPayOwed(0);
+		eInfo.setWorkCode(IDLE);
+		JobListing jobListing = new JobListing(eInfo);
+		this.jobListings.put(jobListing.getId(), jobListing);
+		this.getBuilding().getLand().getCity().listJob(jobListing);
+		System.out.println(jobListing);
 		
 	}
 

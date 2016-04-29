@@ -45,10 +45,28 @@ public class Person implements simulateable {
 			}
 			building.getSubBuilding().work(this);
 		}
-		
+		if (landOwned.size() <=0 && employmentInfos.size()<=0) {
+			applyForJob();
+		} else {
+			//work
+			for (EmploymentInfo eInfo : employmentInfos) {
+				eInfo.getBuilding().work(this);
+			}
+		}
 		if (age > MAX_AGE) {
 			//die
 		}
+	}
+	
+	private void applyForJob() {
+		//TODO: update this
+		//apply for all avaliable jobs at the same time.
+		for (JobListing j : this.city.getJobListings().values()) {
+			if (!j.alreadyApplied(this)) {
+				j.submitApplication(this);
+			}
+		}
+		
 	}
 	/**
 	 * This method generates people at the start of the simulation

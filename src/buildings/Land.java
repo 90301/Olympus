@@ -1,4 +1,5 @@
 package buildings;
+import topLevel.City;
 import topLevel.NodeMain;
 import topLevel.Person;
 import topLevel.simulateable;
@@ -20,6 +21,7 @@ public class Land implements simulateable {
 	private int assessedValue;
 	public static final int NO_ASSESSMENT = -1;
 	private Building building;
+	private City city;
 	
 	
 	
@@ -91,6 +93,12 @@ public class Land implements simulateable {
 	public void setOwner(Person owner) {
 		this.owner = owner;
 		this.ownerId = owner.getId();
+	}
+	public City getCity() {
+		return city;
+	}
+	public void setCity(City city) {
+		this.city = city;
 	}
 	
 

@@ -35,7 +35,10 @@ public class JobListing implements simulateable {
 	public Boolean alreadyApplied(Person p) {
 		return applications.containsKey(p.getId());
 	}
-
+	/**
+	 * Constructor for creating a JobListing
+	 * @param eInfo
+	 */
 	public JobListing(EmploymentInfo eInfo) {
 		this.generate();
 		this.jobTaken = false;
@@ -57,16 +60,22 @@ public class JobListing implements simulateable {
 	@Override
 	public void simulateStep() {
 		setTimeLeft(getTimeLeft() - 1);
-		if (timeLeft<=0) {
+		if (timeLeft<=0 && jobTaken==false) {
 			//pick candidate, ask for confirmation
 			Boolean sucsess = hire();
 			if (sucsess) {
 				jobTaken = true;
+				System.out.println("Hired: " + this);
 			}
 		}
 		
 	}
 	
+	@Override
+	public String toString() {
+		return "JobListing [id=" + id + ", timeLeft=" + timeLeft + ", eInfo=" + eInfo + ", subBuilding=" + subBuilding
+				+ ", applications=" + applications + ", jobTaken=" + jobTaken + "]";
+	}
 	private Boolean hire() {
 		//go through applications, put them in a sorted list.
 		//TreeMap<Integer, JobApplication> orderedCandidates = new TreeMap<>();

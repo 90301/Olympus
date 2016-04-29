@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
+import buildings.JobListing;
 import buildings.Land;
 
 public class City implements simulateable {
@@ -17,8 +18,12 @@ public class City implements simulateable {
 	 */
 	private Map<String,Person> people = new ConcurrentHashMap<String,Person>();
 	private Map<String,Land> land = new ConcurrentHashMap<String,Land>();
+	private Map<String,JobListing> jobListings = new ConcurrentHashMap<String,JobListing>();
 	
-	
+	public Map<String, JobListing> getJobListings() {
+		return jobListings;
+	}
+
 	private String id;
 	public City() {
 		
@@ -31,6 +36,7 @@ public class City implements simulateable {
 		for (int i=0;i<initalPopulation;i++) {
 			Person p = new Person();
 			p.generatePerson();
+			p.setCity(this);
 			people.put(p.getId(), p);
 			NodeMain.people.put(p.getId(), p);
 		}
@@ -38,6 +44,7 @@ public class City implements simulateable {
 		for (int i=0;i<NodeMain.LAND_PER_CITY;i++) {
 			Land l = new Land();
 			l.generate();
+			l.setCity(this);
 			land.put(l.getId(), l);
 			NodeMain.land.put(l.getId(), l);
 			//System.out.println(l);
@@ -67,6 +74,7 @@ public class City implements simulateable {
 	public void simulateStep() {
 		people.values().parallelStream().forEach(s -> s.simulateStep());
 		land.values().parallelStream().forEach(l -> l.simulateStep());
+		jobListings.values().parallelStream().forEach(j -> j.simulateStep());
 	}
 	
 	
@@ -88,6 +96,11 @@ public class City implements simulateable {
 
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
+	}
+
+	public void listJob(JobListing jobListing) {
+		this.jobListings.put(jobListing.getId(), jobListing);
+		
 	}
 
 }
