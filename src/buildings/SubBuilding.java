@@ -26,6 +26,7 @@ public interface SubBuilding extends simulateable {
 	 * @return if the building can be worked by more people
 	 */
 	public Boolean hire(Person hirePerson);
+	public void hire(EmploymentInfo eInfo);
 	/**
 	 * called by the person who is supposed to work
 	 * at a particular sub building.

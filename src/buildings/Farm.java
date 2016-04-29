@@ -129,7 +129,7 @@ public class Farm implements SubBuilding {
 	}
 	
 
-
+	
 	@Override
 	public Boolean hire(Person hirePerson) {
 		workers.put(hirePerson.getId(), hirePerson);
@@ -143,6 +143,11 @@ public class Farm implements SubBuilding {
 		eInfo.setWorkCode(IDLE);
 		employmentInfo.put(hirePerson.getId(), eInfo);
 		return true;
+	}
+	@Override
+	public void hire(EmploymentInfo eInfo) {
+		employmentInfo.put(eInfo.getPerson().getId(), eInfo);
+		
 	}
 
 	@Override
@@ -327,4 +332,6 @@ public class Farm implements SubBuilding {
 		this.crops.remove(crop);
 		
 	}
+
+
 }

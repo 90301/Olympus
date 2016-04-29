@@ -13,6 +13,7 @@ public class Person implements simulateable {
 	private static final double MAX_BASE_MONEY = 100;
 	private static final double MAX_BASE_AGE = 100;
 	private static final int MAX_AGE = 1000;
+	private static final int MAX_JOBS = 3;
 	private String name;
 	private String id;
 	private int money;
@@ -22,7 +23,7 @@ public class Person implements simulateable {
 	private City city;//The city currently in.
 	private HashSet<Land> landOwned = new HashSet<Land>();
 	private HashSet<Building> buildingsOwned = new HashSet<Building>();
-	
+	private HashSet<EmploymentInfo> employmentInfos = new HashSet<EmploymentInfo>();
 	/*
 	 * TODO: add inventory system
 	 */
@@ -109,6 +110,16 @@ public class Person implements simulateable {
 	}
 	public void removedOwnedLand(Land l) {
 		landOwned.remove(l);
+	}
+
+
+	public Boolean offerJob(EmploymentInfo eInfo) {
+		Boolean acceptJob = false;
+		if (employmentInfos.size()<MAX_JOBS) {
+			this.employmentInfos.add(eInfo);
+			acceptJob = true;
+		}
+		return acceptJob;
 	}
 
 	

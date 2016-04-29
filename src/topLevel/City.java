@@ -22,7 +22,6 @@ public class City implements simulateable {
 	private String id;
 	public City() {
 		
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void generateCity(int initalPopulation) {
