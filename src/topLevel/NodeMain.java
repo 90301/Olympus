@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import buildings.Land;
 import goods.Food;
+import visualizer.Visualizer;
 
 /**
  * This class is run on a node in the simulation It is intended to have methods
@@ -37,7 +38,7 @@ public class NodeMain {
 		mainSimulation();
 
 	}
-
+	static Visualizer visual = new Visualizer();
 	/**
 	 * Looping code that keeps running until the program is done running.
 	 */
@@ -55,6 +56,8 @@ public class NodeMain {
 					e.printStackTrace();
 				}
 			}
+			
+			visual.drawGUI();
 
 		}
 	}
